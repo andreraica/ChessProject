@@ -10,6 +10,7 @@ namespace ChessProject.chess
         public Board Tab { get; private set; }
         private int Shift;
         private Color ActualPlayer;
+        public bool finished { get; private set; }
 
 
         public GameChess()
@@ -17,7 +18,9 @@ namespace ChessProject.chess
             Tab = new Board(8, 8);
             Shift = 1;
             ActualPlayer = Color.White;
-            putPieces(); 
+            finished = false;
+            putPieces();
+            
         }
 
         public void execMoviment(Position origin, Position destiny)

@@ -11,7 +11,22 @@ namespace ChessProject
             try
             {
                 GameChess game = new GameChess();
-                Screen.imprBoard(game.Tab);
+
+                while (!game.finished)
+                {
+                    Console.Clear();
+                    Screen.imprBoard(game.Tab);
+
+                    Console.WriteLine();
+                    Console.Write("Origin:");
+                    Position origin = Screen.readPositionChess().toPosition();
+                    Console.Write("Destiny:");
+                    Position destiny = Screen.readPositionChess().toPosition();
+
+                    game.execMoviment(origin, destiny);
+                }
+
+               
             }
             catch (BoardExceptions e)
             {

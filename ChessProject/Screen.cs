@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ChessProject.board;
+using ChessProject.chess;
 
 namespace ChessProject
 {
@@ -30,6 +31,15 @@ namespace ChessProject
                 Console.WriteLine();
             }
             Console.WriteLine("  a b c d e f g h");
+        }
+
+        //create a method to read the position input
+        public static PositionChess readPositionChess()
+        {
+            string s = Console.ReadLine();
+            char column = s[0];
+            int row =int.Parse( s[1] + "");
+            return new PositionChess(column, row);
         }
 
         //create method to change the color of piece
