@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChessProject.Board
+namespace ChessProject.board
 {
     class Position
     {
-        public int line { get; set; }
-        public int column { get; set; }
+        public int Row { get; set; }
+        public int Column { get; set; }
 
-        public Position(int line, int column)
+        public Position(int row, int column)
         {
-            this.line = line;
-            this.column = column;
+            Row = row;
+            Column = column;
         }
 
         //Method ToString
         public override string ToString()
         {
-            return line
+            return Row
             +" , "
-            + column;
+            + Column;
         }
     }
 }
