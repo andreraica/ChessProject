@@ -23,5 +23,13 @@ namespace ChessProject.board
         {
             return pieces[row, column];
         }
+
+        //create a method to insert piece in position
+        public void colPiece(Piece p, Position pos)
+        {
+            //matriz
+            pieces[pos.Row, pos.Column] = p;  //the piece 'p' will be placed in this matriz pieces
+            p.Position = pos;
+        }
     }
 }
