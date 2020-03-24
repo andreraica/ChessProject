@@ -23,6 +23,7 @@ namespace ChessProject
                     else
                     {
                         printPiace(tab.piece(i, j));
+                        Console.Write(" ");
                     }
                     
                 }

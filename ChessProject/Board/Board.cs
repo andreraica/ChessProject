@@ -50,6 +50,19 @@ namespace ChessProject.board
             p.Position = pos;
         }
 
+        //create a method to remove piece
+        public Piece removePiece(Position pos)
+        {
+            if (colPiece(pos) == null)
+            {
+                return null;
+            }
+            Piece aux = colPiece(pos);
+            aux.Position = null;
+            pieces[pos.Row, pos.Column] = null;
+            return aux;
+        }
+
         //create a method to check the positions of the board.
         public bool positionVal(Position pos)
         {

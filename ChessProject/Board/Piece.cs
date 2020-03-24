@@ -19,5 +19,11 @@ namespace ChessProject.board
             Board = board;
             QntMov = 0;
         }
+
+        //Method to increment the piece moviments
+        public void incrementQtdMoviment()
+        {
+            QntMov++;
+        }
     }
 }
