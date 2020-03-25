@@ -40,6 +40,23 @@ namespace ChessProject.chess
             turnPlayer();
         }
 
+        //Method test if position is valid
+        public void validatePositionOrigin(Position pos)
+        {
+            if (Tab.colPiece(pos) == null)
+            {
+                throw new BoardExceptions("There is no piece in the chosen position of origin.");
+            }
+            if (ActualPlayer != Tab.colPiece(pos).Color)
+            {
+                throw new BoardExceptions("The original piece chosen is not yours!");
+            }
+            if (!Tab.colPiece(pos).ifPossibleMovement())
+            {
+                throw new BoardExceptions("There are no possible movements for the original piece chosen.");
+            }
+        }
+
         public void turnPlayer()
         {
             if (ActualPlayer == Color.White)
@@ -58,6 +75,8 @@ namespace ChessProject.chess
             Tab.colPiece(new Tower(Tab, Color.White), new PositionChess('c', 2).toPosition());
             Tab.colPiece(new Tower(Tab, Color.White), new PositionChess('d', 2).toPosition());
             Tab.colPiece(new King(Tab, Color.White), new PositionChess('d', 1).toPosition());
+            Tab.colPiece(new King(Tab, Color.White), new PositionChess('e', 1).toPosition());
+            Tab.colPiece(new King(Tab, Color.White), new PositionChess('e', 2).toPosition());
 
 
             Tab.colPiece(new Tower(Tab, Color.Black), new PositionChess('c', 7).toPosition());

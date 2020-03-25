@@ -26,6 +26,28 @@ namespace ChessProject.board
             QntMov++;
         }
 
+        //Method that checks if there is possible movement
+        
+        public bool ifPossibleMovement()
+        {
+            bool[,] mat = movPossible();
+            for (int i = 0; i < Board.Rows; i++)
+            {
+                for (int j = 0; j < Board.Columns; j++)
+                {
+                    if (mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
+
+
+
 
         //Method that approves the movement of pieces
         public abstract bool[,] movPossible();
