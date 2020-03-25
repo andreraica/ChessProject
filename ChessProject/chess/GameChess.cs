@@ -8,8 +8,8 @@ namespace ChessProject.chess
     class GameChess
     {
         public Board Tab { get; private set; }
-        private int Shift;
-        private Color ActualPlayer;
+        public int Shift { get; private set; }
+        public Color ActualPlayer { get; private set; }
         public bool finished { get; private set; }
 
 
@@ -29,6 +29,27 @@ namespace ChessProject.chess
             p.incrementQtdMoviment();
             Piece pieceCaptured = Tab.removePiece(destiny);
             Tab.colPiece(p, destiny);
+        }
+
+
+        //Method play restrictions
+        public void perform(Position origin, Position destiny)
+        {
+            execMoviment(origin, destiny);
+            Shift++;
+            turnPlayer();
+        }
+
+        public void turnPlayer()
+        {
+            if (ActualPlayer == Color.White)
+            {
+                ActualPlayer = Color.Black;
+            }
+            else
+            {
+                ActualPlayer = Color.White;
+            }
         }
 
         private void putPieces() 

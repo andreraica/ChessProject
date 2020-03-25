@@ -16,6 +16,9 @@ namespace ChessProject
                 {
                     Console.Clear();
                     Screen.imprBoard(game.Tab);
+                    Console.WriteLine();
+                    Console.WriteLine("Shift: " + game.Shift);
+                    Console.WriteLine("Wainting Move... Player:  " + game.ActualPlayer );
 
                     Console.WriteLine();
                     Console.Write("Origin:");
@@ -26,10 +29,11 @@ namespace ChessProject
                     Console.Clear();
                     Screen.imprBoard(game.Tab, possiblePositions);
 
+                    Console.WriteLine();
                     Console.Write("Destiny:");
                     Position destiny = Screen.readPositionChess().toPosition();
 
-                    game.execMoviment(origin, destiny);
+                    game.perform(origin, destiny);
                 }
 
                
