@@ -48,7 +48,7 @@ namespace ChessProject.board
         //Method Possible Movements
         public bool canMoveFrom(Position pos)
         {
-            return movPossible()[Position.Row, Position.Column];
+            return movPossible()[pos.Row, pos.Column];
         }
 
 

@@ -8,6 +8,42 @@ namespace ChessProject
 {
     class Screen
     {
+        public static void imprGame(GameChess game)
+        {
+            imprBoard(game.Tab);
+            Console.WriteLine();
+            imprCapturedPieces(game);
+            Console.WriteLine();
+            Console.WriteLine("Shift: " + game.Shift);
+            Console.WriteLine("Wainting Move... Player:  " + game.ActualPlayer);
+        }
+
+        public static void imprCapturedPieces(GameChess game)
+        {
+            Console.WriteLine("Captured Pieces:");
+            Console.Write("White Pieces: ");
+            imprCollection(game.colorPieceCaptured(Color.White));
+            Console.WriteLine();
+            Console.Write("Black Pieces: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            imprCollection(game.colorPieceCaptured(Color.Black));
+            Console.ForegroundColor = aux;
+            Console.WriteLine();
+        }
+
+
+        public static void imprCollection(HashSet<Piece> conjunto)
+        {
+            Console.Write("[");
+            foreach (Piece x in conjunto)
+            {
+                Console.Write(x + " ");
+            }
+            Console.Write("]");
+        }
+
+
         public static void imprBoard(Board tab) {
 
             for (int i = 0; i < tab.Rows; i++)

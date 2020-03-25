@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ChessProject.board;
 
+
 namespace ChessProject.chess
 {
     class GameChess
@@ -12,6 +13,9 @@ namespace ChessProject.chess
         public Color ActualPlayer { get; private set; }
         public bool finished { get; private set; }
 
+        private HashSet<Piece>pieceM;
+        private HashSet<Piece> pieceCap;
+
 
         public GameChess()
         {
@@ -19,6 +23,8 @@ namespace ChessProject.chess
             Shift = 1;
             ActualPlayer = Color.White;
             finished = false;
+            pieceM = new HashSet<Piece>();
+            pieceCap = new HashSet<Piece>();
             putPieces();
             
         }
@@ -29,6 +35,10 @@ namespace ChessProject.chess
             p.incrementQtdMoviment();
             Piece pieceCaptured = Tab.removePiece(destiny);
             Tab.colPiece(p, destiny);
+            if (pieceCaptured != null)
+            {
+                pieceCap.Add(pieceCaptured);
+            }
         }
 
 
@@ -58,9 +68,9 @@ namespace ChessProject.chess
         }
 
         //Method test if destini position is valid
-        public void validatePositionDestini(Position origin, Position destini)
+        public void validatePositionDestini(Position origin, Position destiny)
         {
-            if (!Tab.colPiece(origin).canMoveFrom(destini))
+            if (!Tab.colPiece(origin).canMoveFrom(destiny))
             {
                 throw new BoardExceptions("Destini Position is invalid!");
             }
@@ -80,21 +90,58 @@ namespace ChessProject.chess
             }
         }
 
+        //Method to know captured the same color piece
+        public HashSet<Piece>colorPieceCaptured(Color color)
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+            foreach (Piece x in pieceCap)
+            {
+                if (x.Color == color)
+                {
+                    aux.Add(x);
+                }
+            }
+            return aux;
+        }
+
+        //Method to know captured the same color piece in the game
+        public HashSet<Piece> piecesInTheGame(Color color)
+        {
+            HashSet<Piece> aux = new HashSet<Piece>();
+            foreach (Piece x in pieceM)
+            {
+                if (x.Color == color)
+                {
+                    aux.Add(x);
+                }
+            }
+            aux.ExceptWith(colorPieceCaptured(color));
+            return aux;
+        }
+
+        //Method put new piece
+        public void putNewPiece(char column, int row, Piece piece)
+        {
+            Tab.colPiece(piece, new PositionChess(column, row).toPosition());
+            pieceM.Add(piece);
+        }
+
         private void putPieces() 
         {
-            Tab.colPiece(new Tower(Tab, Color.White), new PositionChess('c', 1).toPosition());
-            Tab.colPiece(new Tower(Tab, Color.White), new PositionChess('c', 2).toPosition());
-            Tab.colPiece(new Tower(Tab, Color.White), new PositionChess('d', 2).toPosition());
-            Tab.colPiece(new King(Tab, Color.White), new PositionChess('d', 1).toPosition());
-            Tab.colPiece(new King(Tab, Color.White), new PositionChess('e', 1).toPosition());
-            Tab.colPiece(new King(Tab, Color.White), new PositionChess('e', 2).toPosition());
+            putNewPiece('c', 1, new Tower(Tab, Color.White));
+            putNewPiece('c', 2, new Tower(Tab, Color.White));
+            putNewPiece('d', 2, new Tower(Tab, Color.White));
+            putNewPiece('e', 2, new Tower(Tab, Color.White));
+            putNewPiece('e', 1, new Tower(Tab, Color.White));
+            putNewPiece('d', 1, new King(Tab, Color.White));
 
 
-            Tab.colPiece(new Tower(Tab, Color.Black), new PositionChess('c', 7).toPosition());
-            Tab.colPiece(new Tower(Tab, Color.Black), new PositionChess('c', 8).toPosition());
-            Tab.colPiece(new Tower(Tab, Color.Black), new PositionChess('d', 7).toPosition());
-            Tab.colPiece(new King(Tab, Color.Black), new PositionChess('d', 8).toPosition());
-            Tab.colPiece(new King(Tab, Color.Black), new PositionChess('h', 8).toPosition());
+            putNewPiece('c', 7, new Tower(Tab, Color.Black));
+            putNewPiece('c', 8, new Tower(Tab, Color.Black));
+            putNewPiece('d', 7, new Tower(Tab, Color.Black));
+            putNewPiece('e', 7, new Tower(Tab, Color.Black));
+            putNewPiece('e', 8, new Tower(Tab, Color.Black));
+            putNewPiece('d', 8, new King(Tab, Color.Black));
 
         }
     }

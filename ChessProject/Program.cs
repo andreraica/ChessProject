@@ -16,10 +16,7 @@ namespace ChessProject
                 {
                     try { 
                         Console.Clear();
-                        Screen.imprBoard(game.Tab);
-                        Console.WriteLine();
-                        Console.WriteLine("Shift: " + game.Shift);
-                        Console.WriteLine("Wainting Move... Player:  " + game.ActualPlayer );
+                        Screen.imprGame(game);
 
                         Console.WriteLine();
                         Console.Write("Origin:");
