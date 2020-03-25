@@ -34,6 +34,7 @@ namespace ChessProject
                         Console.WriteLine();
                         Console.Write("Destiny:");
                         Position destiny = Screen.readPositionChess().toPosition();
+                        game.validatePositionDestini(origin, destiny);
 
                         game.perform(origin, destiny);
                     }

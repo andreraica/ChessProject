@@ -45,8 +45,11 @@ namespace ChessProject.board
         }
 
 
-
-
+        //Method Possible Movements
+        public bool canMoveFrom(Position pos)
+        {
+            return movPossible()[Position.Row, Position.Column];
+        }
 
 
         //Method that approves the movement of pieces

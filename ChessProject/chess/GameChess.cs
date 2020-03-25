@@ -40,7 +40,7 @@ namespace ChessProject.chess
             turnPlayer();
         }
 
-        //Method test if position is valid
+        //Method test if origin position is valid
         public void validatePositionOrigin(Position pos)
         {
             if (Tab.colPiece(pos) == null)
@@ -56,6 +56,17 @@ namespace ChessProject.chess
                 throw new BoardExceptions("There are no possible movements for the original piece chosen.");
             }
         }
+
+        //Method test if destini position is valid
+        public void validatePositionDestini(Position origin, Position destini)
+        {
+            if (!Tab.colPiece(origin).canMoveFrom(destini))
+            {
+                throw new BoardExceptions("Destini Position is invalid!");
+            }
+        }
+
+
 
         public void turnPlayer()
         {
