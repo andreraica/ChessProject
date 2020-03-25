@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ChessProject.board
 {
-    class Piece
+    abstract class Piece // We created an abstract method, the class must be abstract!!!
     {
         public Position Position { get; set; }
         public Color Color { get; protected set; }
@@ -25,5 +25,9 @@ namespace ChessProject.board
         {
             QntMov++;
         }
+
+
+        //Method that approves the movement of pieces
+        public abstract bool[,] movPossible();
     }
 }

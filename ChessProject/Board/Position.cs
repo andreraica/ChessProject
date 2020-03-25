@@ -15,6 +15,13 @@ namespace ChessProject.board
             Column = column;
         }
 
+        //Method to define values
+        public void defineValues(int row , int column)
+        {
+            Row = row;
+            Column = column;
+        }
+
         //Method ToString
         public override string ToString()
         {
