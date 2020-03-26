@@ -15,6 +15,7 @@ namespace ChessProject.chess
         private HashSet<Piece>pieceM;
         private HashSet<Piece> pieceCap;
         public bool Xeque { get; private set; }
+        public Piece VulnEnPassant { get; private set; }
 
 
         public GameChess()
@@ -24,6 +25,7 @@ namespace ChessProject.chess
             ActualPlayer = Color.White;
             finished = false;
             Xeque = false;
+            VulnEnPassant = null;
             pieceM = new HashSet<Piece>();
             pieceCap = new HashSet<Piece>();
             putPieces();
@@ -59,6 +61,25 @@ namespace ChessProject.chess
                 Piece T = Tab.removePiece(originT);
                 T.incrementQtdMoviment();
                 Tab.colPiece(T, destinyT);
+            }
+
+            //#Speciak game en passant
+            if (p is Peao)
+            {
+                if (origin.Column != destiny.Column && pieceCaptured == null)
+                {
+                    Position posP;
+                    if (p.Color == Color.White)
+                    {
+                        posP = new Position(destiny.Row + 1, destiny.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(destiny.Row - 1, destiny.Column);
+                    }
+                    pieceCaptured = Tab.removePiece(posP);
+                    pieceCap.Add(pieceCaptured);
+                }
             }
 
             return pieceCaptured;
@@ -97,7 +118,24 @@ namespace ChessProject.chess
                 Tab.colPiece(T, originT);
             }
 
-
+            //#Special game en passant
+            if (p is Peao)
+            {
+                if (origin.Column != destiny.Column && pieceCaptured == VulnEnPassant)
+                {
+                    Piece peao = Tab.removePiece(destiny);
+                    Position posP;
+                    if (p.Color == Color.White)
+                    {
+                        posP = new Position(3, destiny.Column);
+                    }
+                    else
+                    {
+                        posP = new Position(4, destiny.Column);
+                    }
+                    Tab.colPiece(peao, posP);
+                }
+            }
         }
 
 
@@ -129,6 +167,18 @@ namespace ChessProject.chess
             {
                 Shift++;
                 turnPlayer();
+            }
+
+            Piece p = Tab.colPiece(destiny);
+
+            //#Special game en passant
+            if (p is Peao && (destiny.Row == origin.Row -2 || destiny.Row == origin.Row +2))
+            {
+                VulnEnPassant = p;
+            }
+            else
+            {
+                VulnEnPassant = null;
             }
            
         }
@@ -298,14 +348,14 @@ namespace ChessProject.chess
             putNewPiece('f',1 , new Bishop(Tab, Color.White));
             putNewPiece('g',1 , new Horse(Tab, Color.White));
             putNewPiece('h',1 , new Tower(Tab, Color.White));
-            putNewPiece('a', 2, new Peao(Tab, Color.White));
-            putNewPiece('b', 2, new Peao(Tab, Color.White));
-            putNewPiece('c', 2, new Peao(Tab, Color.White));
-            putNewPiece('d', 2, new Peao(Tab, Color.White));
-            putNewPiece('e', 2, new Peao(Tab, Color.White));
-            putNewPiece('f', 2, new Peao(Tab, Color.White));
-            putNewPiece('g', 2, new Peao(Tab, Color.White));
-            putNewPiece('h', 2, new Peao(Tab, Color.White));
+            putNewPiece('a', 2, new Peao(Tab, Color.White, this));
+            putNewPiece('b', 2, new Peao(Tab, Color.White, this));
+            putNewPiece('c', 2, new Peao(Tab, Color.White, this));
+            putNewPiece('d', 2, new Peao(Tab, Color.White, this));
+            putNewPiece('e', 2, new Peao(Tab, Color.White, this));
+            putNewPiece('f', 2, new Peao(Tab, Color.White, this));
+            putNewPiece('g', 2, new Peao(Tab, Color.White, this));
+            putNewPiece('h', 2, new Peao(Tab, Color.White, this));
 
 
             putNewPiece('a', 8, new Tower(Tab, Color.Black));
@@ -316,14 +366,14 @@ namespace ChessProject.chess
             putNewPiece('f', 8, new Bishop(Tab, Color.Black));
             putNewPiece('g', 8, new Horse(Tab, Color.Black));
             putNewPiece('h', 8, new Tower(Tab, Color.Black));
-            putNewPiece('a', 7, new Peao(Tab, Color.Black));
-            putNewPiece('b', 7, new Peao(Tab, Color.Black));
-            putNewPiece('c', 7, new Peao(Tab, Color.Black));
-            putNewPiece('d', 7, new Peao(Tab, Color.Black));
-            putNewPiece('e', 7, new Peao(Tab, Color.Black));
-            putNewPiece('f', 7, new Peao(Tab, Color.Black));
-            putNewPiece('g', 7, new Peao(Tab, Color.Black));
-            putNewPiece('h', 7, new Peao(Tab, Color.Black));
+            putNewPiece('a', 7, new Peao(Tab, Color.Black, this));
+            putNewPiece('b', 7, new Peao(Tab, Color.Black, this));
+            putNewPiece('c', 7, new Peao(Tab, Color.Black, this));
+            putNewPiece('d', 7, new Peao(Tab, Color.Black, this));
+            putNewPiece('e', 7, new Peao(Tab, Color.Black, this));
+            putNewPiece('f', 7, new Peao(Tab, Color.Black, this));
+            putNewPiece('g', 7, new Peao(Tab, Color.Black, this));
+            putNewPiece('h', 7, new Peao(Tab, Color.Black, this));
 
 
 
