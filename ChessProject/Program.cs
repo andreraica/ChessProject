@@ -42,6 +42,9 @@ namespace ChessProject
                     }
                 }
 
+                Console.Clear();
+                Screen.imprGame(game);
+
                
             }
             catch (BoardExceptions e)

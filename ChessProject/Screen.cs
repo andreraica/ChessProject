@@ -15,12 +15,20 @@ namespace ChessProject
             imprCapturedPieces(game);
             Console.WriteLine();
             Console.WriteLine("Shift: " + game.Shift);
-            Console.WriteLine("Wainting Move... Player:  " + game.ActualPlayer);
-            if (game.Xeque)
+            if (!game.finished)
             {
-                Console.WriteLine("XEQUE");
+                Console.WriteLine("Wainting Move... Player:  " + game.ActualPlayer);
+                if (game.Xeque)
+                {
+                    Console.WriteLine("XEQUE");
+                }
+               
             }
-            Console.WriteLine();
+            else
+            {
+                Console.WriteLine("XEQUEMATE!!!! :)");
+                Console.WriteLine("The winner is " + game.ActualPlayer);
+            }
         }
 
         public static void imprCapturedPieces(GameChess game)

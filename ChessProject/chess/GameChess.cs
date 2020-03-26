@@ -80,8 +80,16 @@ namespace ChessProject.chess
                 Xeque = false;
             }
 
-            Shift++;
-            turnPlayer();
+            if (testeXequemate(adversary(ActualPlayer)))
+            {
+                finished = true;
+            }
+            else
+            {
+                Shift++;
+                turnPlayer();
+            }
+           
         }
 
         //Method test if origin position is valid
@@ -198,6 +206,40 @@ namespace ChessProject.chess
             return false;
         }
 
+        //Method to teste Xequemate
+        public bool testeXequemate(Color color)
+        {
+            if (!stayInCheck(color))
+            {
+                return false;
+            }
+
+            foreach (Piece x in piecesInTheGame(color))
+            {
+                bool[,] mat = x.movPossible();
+                for (int i = 0; i < Tab.Rows; i++)
+                {
+                    for (int j = 0; j < Tab.Columns; j++)
+                    {
+                        if (mat [i,j])
+                        {
+                            Position origin = x.Position;
+                            Position destiny = new Position(i, j);
+                            Piece pieceCaptured = execMoviment(origin, destiny);
+                            bool testXeque = stayInCheck(color);
+                            undoMoviment(origin, destiny, pieceCaptured);
+                            if (!testXeque)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+
 
         //Method put new piece
         public void putNewPiece(char column, int row, Piece piece)
@@ -209,19 +251,14 @@ namespace ChessProject.chess
         private void putPieces() 
         {
             putNewPiece('c', 1, new Tower(Tab, Color.White));
-            putNewPiece('c', 2, new Tower(Tab, Color.White));
-            putNewPiece('d', 2, new Tower(Tab, Color.White));
-            putNewPiece('e', 2, new Tower(Tab, Color.White));
-            putNewPiece('e', 1, new Tower(Tab, Color.White));
             putNewPiece('d', 1, new King(Tab, Color.White));
+            putNewPiece('h', 7, new Tower(Tab, Color.White));
 
 
-            putNewPiece('c', 7, new Tower(Tab, Color.Black));
-            putNewPiece('c', 8, new Tower(Tab, Color.Black));
-            putNewPiece('d', 7, new Tower(Tab, Color.Black));
-            putNewPiece('e', 7, new Tower(Tab, Color.Black));
-            putNewPiece('e', 8, new Tower(Tab, Color.Black));
-            putNewPiece('d', 8, new King(Tab, Color.Black));
+
+            putNewPiece('a', 8, new King(Tab, Color.Black));
+            putNewPiece('b', 8, new Tower(Tab, Color.Black));
+         
 
         }
     }
