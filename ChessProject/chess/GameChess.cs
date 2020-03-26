@@ -40,6 +40,27 @@ namespace ChessProject.chess
             {
                 pieceCap.Add(pieceCaptured);
             }
+
+            //#Special game Roque Small
+            if (p is King && destiny.Column == origin.Column +2)
+            {
+                Position originT = new Position(origin.Row, origin.Column + 3);
+                Position destinyT = new Position(origin.Row, origin.Column + 1);
+                Piece T = Tab.removePiece(originT);
+                T.incrementQtdMoviment();
+                Tab.colPiece(T, destinyT);
+            }
+
+            //#Special game Roque Big
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Row, origin.Column -4);
+                Position destinyT = new Position(origin.Row, origin.Column -1);
+                Piece T = Tab.removePiece(originT);
+                T.incrementQtdMoviment();
+                Tab.colPiece(T, destinyT);
+            }
+
             return pieceCaptured;
         }
 
@@ -55,6 +76,26 @@ namespace ChessProject.chess
                 pieceCap.Remove(pieceCaptured);
             }
             Tab.colPiece(p, origin);
+
+            //#Special game Roque Small
+            if (p is King && destiny.Column == origin.Column + 2)
+            {
+                Position originT = new Position(origin.Row, origin.Column + 3);
+                Position destinyT = new Position(origin.Row, origin.Column + 1);
+                Piece T = Tab.removePiece(destinyT);
+                T.decrementQtdMoviment();
+                Tab.colPiece(T, originT);
+            }
+
+            //#Special game Roque Big
+            if (p is King && destiny.Column == origin.Column - 2)
+            {
+                Position originT = new Position(origin.Row, origin.Column -4);
+                Position destinyT = new Position(origin.Row, origin.Column -1);
+                Piece T = Tab.removePiece(destinyT);
+                T.decrementQtdMoviment();
+                Tab.colPiece(T, originT);
+            }
 
 
         }
@@ -253,7 +294,7 @@ namespace ChessProject.chess
             putNewPiece('b',1 , new Horse(Tab, Color.White));
             putNewPiece('c',1 , new Bishop(Tab, Color.White));
             putNewPiece('d',1 , new Dama(Tab, Color.White));
-            putNewPiece('e',1 , new King(Tab, Color.White));
+            putNewPiece('e',1 , new King(Tab, Color.White, this));
             putNewPiece('f',1 , new Bishop(Tab, Color.White));
             putNewPiece('g',1 , new Horse(Tab, Color.White));
             putNewPiece('h',1 , new Tower(Tab, Color.White));
@@ -271,7 +312,7 @@ namespace ChessProject.chess
             putNewPiece('b', 8, new Horse(Tab, Color.Black));
             putNewPiece('c', 8, new Bishop(Tab, Color.Black));
             putNewPiece('d', 8, new Dama(Tab, Color.Black));
-            putNewPiece('e', 8, new King(Tab, Color.Black));
+            putNewPiece('e', 8, new King(Tab, Color.Black, this));
             putNewPiece('f', 8, new Bishop(Tab, Color.Black));
             putNewPiece('g', 8, new Horse(Tab, Color.Black));
             putNewPiece('h', 8, new Tower(Tab, Color.Black));
