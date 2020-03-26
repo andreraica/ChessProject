@@ -150,6 +150,21 @@ namespace ChessProject.chess
                 throw new BoardExceptions("You can't put yourself in check!!!");
             }
 
+            Piece p = Tab.colPiece(destiny);
+            //Special Game Promotion
+            if (p is Peao)
+            {
+                if ((p.Color == Color.White && destiny.Row == 0) || (p.Color == Color.Black && destiny.Row == 7))
+                {
+                    p = Tab.removePiece(destiny);
+                    pieceM.Remove(p);
+                    Piece dama = new Dama(Tab, p.Color);
+                    Tab.colPiece(dama, destiny);
+                    pieceM.Add(dama);
+                }
+            }
+
+
             if (stayInCheck(adversary(ActualPlayer)))
             {
                 Xeque = true;
@@ -169,7 +184,7 @@ namespace ChessProject.chess
                 turnPlayer();
             }
 
-            Piece p = Tab.colPiece(destiny);
+          
 
             //#Special game en passant
             if (p is Peao && (destiny.Row == origin.Row -2 || destiny.Row == origin.Row +2))
