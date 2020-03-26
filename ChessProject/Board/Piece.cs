@@ -26,8 +26,14 @@ namespace ChessProject.board
             QntMov++;
         }
 
+        //Method to decrement the piece moviments
+        public void decrementQtdMoviment()
+        {
+            QntMov--;
+        }
+
         //Method that checks if there is possible movement
-        
+
         public bool ifPossibleMovement()
         {
             bool[,] mat = movPossible();

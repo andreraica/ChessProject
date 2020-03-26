@@ -16,6 +16,11 @@ namespace ChessProject
             Console.WriteLine();
             Console.WriteLine("Shift: " + game.Shift);
             Console.WriteLine("Wainting Move... Player:  " + game.ActualPlayer);
+            if (game.Xeque)
+            {
+                Console.WriteLine("XEQUE");
+            }
+            Console.WriteLine();
         }
 
         public static void imprCapturedPieces(GameChess game)

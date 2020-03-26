@@ -12,9 +12,9 @@ namespace ChessProject.chess
         public int Shift { get; private set; }
         public Color ActualPlayer { get; private set; }
         public bool finished { get; private set; }
-
         private HashSet<Piece>pieceM;
         private HashSet<Piece> pieceCap;
+        public bool Xeque { get; private set; }
 
 
         public GameChess()
@@ -23,13 +23,14 @@ namespace ChessProject.chess
             Shift = 1;
             ActualPlayer = Color.White;
             finished = false;
+            Xeque = false;
             pieceM = new HashSet<Piece>();
             pieceCap = new HashSet<Piece>();
             putPieces();
             
         }
 
-        public void execMoviment(Position origin, Position destiny)
+        public Piece execMoviment(Position origin, Position destiny)
         {
             Piece p = Tab.removePiece(origin);
             p.incrementQtdMoviment();
@@ -39,13 +40,46 @@ namespace ChessProject.chess
             {
                 pieceCap.Add(pieceCaptured);
             }
+            return pieceCaptured;
+        }
+
+
+        //Method to undo moviment
+        public void undoMoviment(Position origin, Position destiny, Piece pieceCaptured)
+        {
+            Piece p = Tab.removePiece(destiny);
+            p.decrementQtdMoviment();
+            if (pieceCaptured != null)
+            {
+                Tab.colPiece(pieceCaptured, destiny);
+                pieceCap.Remove(pieceCaptured);
+            }
+            Tab.colPiece(p, origin);
+
+
         }
 
 
         //Method play restrictions
         public void perform(Position origin, Position destiny)
         {
-            execMoviment(origin, destiny);
+            Piece pieceCaptured =  execMoviment(origin, destiny);
+
+            if (stayInCheck(ActualPlayer))
+            {
+                undoMoviment(origin, destiny, pieceCaptured);
+                throw new BoardExceptions("You can't put yourself in check!!!");
+            }
+
+            if (stayInCheck(adversary(ActualPlayer)))
+            {
+                Xeque = true;
+            }
+            else
+            {
+                Xeque = false;
+            }
+
             Shift++;
             turnPlayer();
         }
@@ -118,6 +152,52 @@ namespace ChessProject.chess
             aux.ExceptWith(colorPieceCaptured(color));
             return aux;
         }
+
+
+        //method to select the king of each color - checkmate
+        private Color adversary(Color color)
+        {
+            if (color == Color.White)
+            {
+                return Color.Black;
+            }
+            else
+            {
+                return Color.White;
+            }
+        }
+
+        private Piece king(Color color)
+        {
+            foreach  (Piece x in piecesInTheGame(color))
+            {
+                if (x is King)
+                {
+                    return x;
+                }
+            }
+            return null;
+        }
+
+        //method that tests the king is in check - checkmate
+        public bool stayInCheck(Color color)
+        {
+            Piece R = king(color);
+            if (R == null)
+            {
+                throw new BoardExceptions("Not have a " + color + "king in Boar!");
+            }
+            foreach (Piece x in piecesInTheGame(adversary(color)))
+            {
+                bool[,] mat = x.movPossible();
+                if (mat [R.Position.Row, R.Position.Column])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         //Method put new piece
         public void putNewPiece(char column, int row, Piece piece)
